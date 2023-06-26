@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "usart.h"
+#include "dma.h"
 
 #define MODBUS_DATA_BUF_SIZE	252
 
@@ -34,11 +35,11 @@ typedef enum CRC_MODBUS_TYPE {
 typedef struct MODMUS_RTU {
 	t_usart* usart;				/* используемый USART (протокол физического уровня) */
 	TIM_TypeDef* timer;			/* используемый таймер для синхронизации протокола */
-	DMA_TypeDef* dma;			/* используемый DMA для сохранения данных */
+	t_dma* dma;					/* используемый DMA для сохранения данных */
 	t_prot_modbus protocol;		/* используемый протокол передачи верхнего уровня (RTU/ASCII) */
 	t_crc_modbus_enable crc_en;	/* Использование / неиспользование контрольнной суммы */
 	t_crc_modbus_type crc_type;	/* Вид контрольной суммы */
-	t_modbus_pack pack;		/* пакет данных */
+	t_modbus_pack pack;			/* пакет данных */
 }t_modbus;
 
 extern t_modbus modbus;

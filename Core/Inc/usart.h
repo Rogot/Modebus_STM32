@@ -35,13 +35,13 @@ typedef enum USART_INTERRUPT_COMPLETE{
 } t_usart_interrupt_complete_en;
 
 typedef enum USART_DMA_INTERRUPT_ENABLE {
-	RXE_DMA_INTERRUPT_DISABLE,
-	TXE_DMA_INTERRUPT_DISABLE,
-	RXE_TXE_DMA_INTERRUPT_DISABLE,
-	RXE_DMA_INTERRUPT_ENABLE,
-	TXE_DMA_INTERRUPT_ENABLE,
-	RXE_TXE_DMA_INTERRUPT_ENABLE,
-} t_usart_dma_interrupt_enable;
+	RXE_DMA_DISABLE,
+	TXE_DMA_DISABLE,
+	RXE_TXE_DMA_DISABLE,
+	RXE_DMA_ENABLE,
+	TXE_DMA_ENABLE,
+	RXE_TXE_DMA_ENABLE,
+} t_usart_dma_enable;
 
 typedef enum USART_PERMISSION_INTERRUPT {
 	INTERRUPT_PERMISSION_DISABLE,
@@ -61,7 +61,7 @@ typedef struct USART {
 	t_usart_enable usart_en;
 	t_usart_interrupt_enable intrpt_en;
 	t_usart_interrupt_complete_en intrpt_compl_en;
-	t_usart_dma_interrupt_enable intrpt_dma_en;
+	t_usart_dma_enable dma_en;
 	t_usart_permis_interrupt intrpt_perm;
 	float friq; 	/* in BOD values */
 	uint16_t len;

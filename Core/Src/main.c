@@ -44,6 +44,7 @@
 /* USER CODE BEGIN PV */
 
 t_modbus modbus;
+uint16_t data_buffer[MODBUS_DATA_BUF_SIZE];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -82,6 +83,7 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   	modbus.usart = malloc(sizeof(t_usart));
+  	modbus.dma = malloc(sizeof(t_dma));
   	modbus.usart->usart_type = USART1;
   	modbus.timer = TIM1;
 
@@ -89,13 +91,43 @@ int main(void)
   		modbus.pack.data[i] = i;
   	}
   	modbus.pack.len = 255;
+
+  	/* USART CONFIG */
+
   	modbus.usart->friq = 115200;
   	modbus.usart->data_dir = RX_TX_MODE;
   	modbus.usart->word_length = BIT_8;
   	modbus.usart->usart_en = USART_ENABLE;
   	modbus.usart->intrpt_en = RXNE_INTERRUPT_ENABLE;
   	modbus.usart->intrpt_perm = INTERRUPT_PERMISSION_ENABLE;
+//  	modbus.usart->dma_en = RXE_DMA_ENABLE;
 
+  	/* ~USART CONFIG~ */
+
+  	/* TIM CONFIG */
+
+  	/* ~TIM CONFIG~ */
+
+  	/* DMA CONFIG */
+#if 0
+  	modbus.dma->dma_stream = DMA2_Stream2;
+  	modbus.dma->dma_channel = DMA_CHANNEL_4;
+  	modbus.dma->dma_dir = DMA_PER_TO_MEM;
+  	modbus.dma->dma_circ = DMA_CIRC_ENABLE;
+  	modbus.dma->dma_pl = DMA_PRIORITY_LEVEL_HIGH;
+  	modbus.dma->dma_psize = DMA_HALF_WORD_SIZE; /* 16 bit */
+  	modbus.dma->dma_msize = DMA_HALF_WORD_SIZE; /* 16 bit */
+  	modbus.dma->dma_minc = DMA_INCREMENT_ENABLE;
+  	modbus.dma->dma_pinc = DMA_INCREMENT_DISABLE;
+  	modbus.dma->dma_intrpt_en = DMA_INTERRUPT_TRAN_COMP_DISABLE;
+  	modbus.dma->dma_intrpt_half_en = DMA_INTERRUPT_HALF_TRAN_COMP_DISABLE;
+  	modbus.dma->dma_par = &(USART1->DR);
+  	modbus.dma->dma_m0ar = data_buffer;
+  	modbus.dma->dma_ndtr = MODBUS_DATA_BUF_SIZE;
+  	modbus.dma->dma_permis_intrpt_en = DMA_INTERRUPT_PERMISSION_DISABLE;
+  	modbus.dma->dma_en = DMA_ENABLE;
+#endif
+  	/* ~DMA CONFIG~ */
 
   	modbus_init(&modbus);
 

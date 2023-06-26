@@ -100,11 +100,11 @@ void usart_interrupt_en(t_usart *usart) {
 		usart->usart_type->CR1 |= USART_CR1_TCIE;
 	}
 
-	if (usart->intrpt_dma_en == RXE_DMA_INTERRUPT_ENABLE) {
+	if (usart->dma_en == RXE_DMA_ENABLE) {
 		usart->usart_type->CR3 |= USART_CR3_DMAR;
-	} else if (usart->intrpt_dma_en == TXE_DMA_INTERRUPT_ENABLE) {
+	} else if (usart->dma_en == TXE_DMA_ENABLE) {
 		usart->usart_type->CR3 |= USART_CR3_DMAT;
-	} else if (usart->intrpt_dma_en == RXE_TXE_DMA_INTERRUPT_ENABLE) {
+	} else if (usart->dma_en == RXE_TXE_DMA_ENABLE) {
 		usart->usart_type->CR3 |= USART_CR3_DMAR;
 		usart->usart_type->CR3 |= USART_CR3_DMAT;
 	}
@@ -133,10 +133,10 @@ uint8_t USART_RX(t_usart* usart) {
 		usart->data[i] = usart->usart_type->DR;
 		i++;
 	}
-//	if (i > 0){
-//		usart->len = i;
-//		USART_TX(usart);
-//	}
+	if (i > 0){
+		usart->len = i;
+		USART_TX(usart);
+	}
 }
 
 float BRR2f(USART_TypeDef* usart) {

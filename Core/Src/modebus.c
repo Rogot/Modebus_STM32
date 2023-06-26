@@ -4,6 +4,7 @@ void modbus_init(t_modbus* mb) {
 	mb->usart->data = malloc(sizeof(mb->pack.slave_address) + sizeof(mb->pack.func_code) +
 			sizeof(mb->pack.data) * MODBUS_DATA_BUF_SIZE + sizeof(mb->pack.crc_low) * 2);
 	usart_init(mb->usart);
+	dma_init(mb->dma);
 	modbus_tim_init(mb->timer);
 }
 
